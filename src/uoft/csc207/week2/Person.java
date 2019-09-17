@@ -1,12 +1,21 @@
 package uoft.csc207.week2;
 
+import java.util.Arrays;
+
 /**
  * A person at the UofT.
  */
 class Person {
 
-    /** The person's name (family name last).  */
-    String[] name;    /** The person's UTORid */  String utorid;
+    /**
+     * The person's name (family name last).
+     */
+    private final String[] name;
+    /**
+     * The person's UTORid
+     */
+    private final String utorid;
+
     /**
      * Initialize this Person named name with UTORid utorid.
      *
@@ -14,30 +23,46 @@ class Person {
      * @param utorid the person's UTORid
      */
     Person
-    (String[] name, String utorid){this.name=name;this.utorid=utorid;}
+    (String[] name, String utorid) {
+        // Deep copy mutable parameter.
+        this.name = Arrays.copyOf(name, name.length);
+        this.utorid = utorid;
+    }
 
     /**
      * Return a string representation of this person with this format:
      * 'last name, other names: utorid'
+     *
      * @return a string representation of this person
      */
-    public String toString(){
-        return this.formatName()+": "+this.utorid;
+    public String toString() {
+        return this.formatName() + ": " + this.utorid;
     }
 
     /**
      * Return the name formatted as a str. The last name is first, then a
      * comma, then the rest of the names.
+     *
      * @return the name formatted as a str.
      */
-    String formatName() {
+    private String formatName() {
         String formattedName = this.name[name.length - 1] + ",";
-                   int i = 0;
-        while (i != this.name.length - 1) {            formattedName =
-                formattedName+" "+this.name[i];
+        int i = 0;
+        while (i != this.name.length - 1) {
+            formattedName =
+                    formattedName + " " + this.name[i];
             i += 1;
         }
 
         return formattedName;
+    }
+
+    /**
+     * Change this person's last name to newLast.
+     *
+     * @param newLast the new last name.
+     */
+    public void changeLastName(String newLast) {
+        this.name[name.length - 1] = newLast;
     }
 }
